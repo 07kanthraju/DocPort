@@ -1,62 +1,69 @@
 # DocPort
 
-**One Doctor App. Many Insurance Platforms.**
+**A unified doctor platform for multi-insurance OPD integration**
 
-DocPort is a doctor-first infrastructure platform that eliminates the need for doctors to manage multiple insurance provider applications. It provides a single canonical doctor app where insurance providers can plug in via APIs, allowing doctors to opt into multiple insurance platforms seamlessly.
+DocPort is a doctor-first infrastructure platform designed to simplify OPD onboarding for insurance providers and reduce operational complexity for doctors. It enables doctors to manage their profile, availability, and appointments through a single application, while allowing multiple insurance providers to integrate via APIs.
 
----
-
-## Problem Statement
-
-In the current healthcare ecosystem:
-
-- Insurance providers often avoid offering OPD benefits because onboarding doctors onto their individual platforms is expensive and operationally complex.
-- Doctors are forced to manage multiple insurer-specific apps to handle appointments, availability, and workflows.
-- This fragmentation increases cost for insurers, operational burden for doctors, and limits OPD accessibility for patients.
+Doctors remain in control of where they appear. Insurance providers connect once and scale efficiently.
 
 ---
 
-## Solution
+## Background
 
-DocPort solves this by acting as a central doctor registry and integration layer.
+OPD insurance adoption remains limited because of structural inefficiencies:
 
-- Doctors manage their profile, availability, and appointments in one app.
-- Insurance providers integrate with DocPort using standardized APIs.
-- Doctors can opt into one or more insurance platforms.
-- Doctor profiles and availability are synced automatically to connected insurance provider systems.
+- Insurance providers must individually onboard and manage doctors on their own platforms, which is costly and difficult to scale.
+- Doctors are required to use multiple insurer-specific applications to manage appointments and availability.
+- As a result, many insurers avoid offering OPD benefits, and doctors avoid insurer platforms.
 
-Control remains with the doctor, while integration complexity is handled by infrastructure.
-
----
-
-## Core Concept
-
-Doctor → DocPort (Canonical Doctor App) → Multiple Insurance Providers → Patients
-
-DocPort is not a patient-facing booking app.  
-It is infrastructure that normalizes doctor onboarding and availability across insurance platforms.
+This fragmentation increases cost, reduces adoption, and limits patient access.
 
 ---
 
-## Key Features
+## What DocPort Does
 
-- Single Doctor Application
-  - Profile management
-  - Availability and scheduling
-  - Appointment management
+DocPort introduces a single, canonical doctor application that acts as the source of truth for doctor identity and availability.
 
-- Insurance Provider Plug-in System
-  - API-based integration
+- Doctors manage everything in one app
+- Insurance providers integrate through standardized APIs
+- Doctors explicitly opt in to the insurance platforms they want to participate in
+- Doctor profiles and availability are synced to connected insurance platforms
+
+The system shifts complexity away from doctors and removes redundant onboarding work for insurers.
+
+---
+
+## Core Model
+
+Doctor  
+→ DocPort (Doctor App & Registry)  
+→ Multiple Insurance Provider Platforms  
+→ Patients
+
+DocPort is not a patient-facing booking application.  
+It is an infrastructure layer that enables scalable OPD integration.
+
+---
+
+## Key Capabilities
+
+- **Single Doctor Application**
+  - Profile and credential management
+  - Availability and schedule control
+  - Appointment visibility
+
+- **Insurance Integration Layer**
+  - API-based provider onboarding
   - Standardized doctor data model
-  - Availability synchronization
+  - Availability and profile synchronization
 
-- Opt-In Visibility
+- **Opt-In Control**
   - Doctors choose which insurance providers to integrate with
-  - Consent-based platform access
+  - Consent-based visibility across platforms
 
-- Central Doctor Registry
-  - One source of truth for doctor identity and availability
-  - Eliminates duplicate onboarding across insurers
+- **Central Doctor Registry**
+  - One source of truth for doctor identity
+  - Eliminates repeated onboarding and data duplication
 
 ---
 
@@ -68,30 +75,30 @@ It is infrastructure that normalizes doctor onboarding and availability across i
 
 ### Backend
 - Spring Boot
-- REST APIs
-- Authentication and authorization
+- RESTful APIs
+- Authentication and authorization services
 
 ### Database
 - PostgreSQL
 
-### DevOps & Deployment
+### DevOps
 - Docker
 - CI/CD pipelines
-- Cloud-ready deployment
+- Cloud-ready deployment architecture
 
 ---
 
 ## High-Level Architecture
 
 - Doctor Application (Frontend)
-- Core Backend Services
+- Backend Services
   - Doctor Registry Service
-  - Consent and Opt-In Service
+  - Consent and Integration Service
   - Scheduling Service
-- Insurance Integration Layer
-  - Provider APIs
-  - Webhooks and sync services
-- Database Layer
+- Insurance Provider Integration Layer
+  - APIs
+  - Webhooks and sync mechanisms
+- Persistent Data Layer
 
 ---
 
@@ -100,28 +107,29 @@ It is infrastructure that normalizes doctor onboarding and availability across i
 - Role-based access control
 - Secure API authentication (JWT / OAuth)
 - Encrypted data storage
-- Compliance-ready architecture for healthcare integrations
+- Designed for compliance with healthcare integration requirements
 
 ---
 
 ## Project Status
 
-Under active development.
+This project is currently under active development.
 
-Planned milestones:
-- Doctor onboarding MVP
+Initial focus areas:
+- Doctor onboarding and profile management
 - Single insurance provider integration
 - Availability synchronization
-- Opt-in consent workflow
+- Opt-in consent workflows
 
 ---
 
 ## Vision
 
-DocPort aims to become the default doctor identity and availability infrastructure for OPD insurance platforms, enabling scalable OPD benefits while keeping doctors in control.
+DocPort aims to become the standard doctor identity and availability layer for OPD insurance platforms, enabling insurers to offer OPD benefits at scale while allowing doctors to work through a single, consistent system.
 
 ---
 
 ## License
 
-This project is currently private and proprietary. License details will be added in future releases.
+This project is currently private and proprietary.  
+License details will be defined as the project evolves.
