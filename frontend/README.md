@@ -71,3 +71,13 @@ export default defineConfig([
   },
 ])
 ```
+
+
+
+
+
+## The Key Idea
+
+here in the frontend, we will give two options one is for login as doctor and other one is login as patient,
+here the patient will be havig n no of insurances, so the doctor should be able to see from which insurance opd patient is booking the appointment
+also the future upgrade will be let the insurance also able to login and can manage and approve opd claims etc
