@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: docport-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: docport
+      POSTGRES_USER: docport_user
+      POSTGRES_PASSWORD: docport_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: docport-backend
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/docport
+      SPRING_DATASOURCE_USERNAME: docport_user
+      SPRING_DATASOURCE_PASSWORD: docport_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: docport-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  postgres_data:

@@ -1,43 +1,22 @@
 package com.backend.backend.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-
-
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
 public class Doctor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String Specialization;
+    private String specialization;
 
-    @OneToMany(mappedBy = "insuranceProvider")
+    @OneToMany(mappedBy = "doctor")
     private List<Patient> patients;
 
-    public List<Patient> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.Specialization = specialization;
-    }
-
+    // getters and setters
     public Long getId() {
         return id;
     }
@@ -47,8 +26,26 @@ public class Doctor {
     }
 
     public String getSpecialization() {
-        return Specialization;
+        return specialization;
     }
 
+    public List<Patient> getPatients() {
+        return patients;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
 }
