@@ -1,4 +1,10 @@
 package com.backend.backend.repo;
 
-public class InsuranceProviderRepo {
+
+import com.backend.backend.model.InsuranceProvider;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface InsuranceProviderRepo extends JpaRepository<InsuranceProvider, Long> {
 }
+
+
