@@ -1,9 +1,12 @@
 package com.backend.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
+@Table(name = "doctors")
 public class Doctor {
 
     @Id
@@ -13,10 +16,20 @@ public class Doctor {
     private String name;
     private String specialization;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Patient> patients;
 
-    // getters and setters
+    // Constructors
+    public Doctor() {
+    }
+
+    public Doctor(String name, String specialization) {
+        this.name = name;
+        this.specialization = specialization;
+    }
+
+    // Getters
     public Long getId() {
         return id;
     }
@@ -33,6 +46,7 @@ public class Doctor {
         return patients;
     }
 
+    // Setters
     public void setId(Long id) {
         this.id = id;
     }

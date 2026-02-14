@@ -1,0 +1,11 @@
+sudo docker run -d \
+  --name docport-postgres \
+  -e POSTGRES_DB=docport_db \
+  -e POSTGRES_USER=docport_user \
+  -e POSTGRES_PASSWORD=docport_pass \
+  -p 5432:5432 \
+  postgres:15
+
+
+
+sudo docker exec -it docport-postgres psql -U docport_user -d docport_db
