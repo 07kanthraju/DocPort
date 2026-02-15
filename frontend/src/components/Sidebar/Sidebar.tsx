@@ -10,7 +10,7 @@ const Sidebar = () => {
 
       <ul>
         <li>
-          <NavLink to="/overview">Overview</NavLink>
+          <NavLink to="/Overview">Overview</NavLink>
         </li>
 
         <li>
@@ -18,11 +18,20 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <NavLink to="/Availabality">Availabality</NavLink>
+          <NavLink to="/Availability">Availability</NavLink>
         </li>
 
         <li>
           <NavLink to="/Appointments">Appointments</NavLink>
+        </li>
+        <li>
+          <NavLink to="/Transaction">Transaction</NavLink>
+        </li>
+        <li>
+          <NavLink to="/Analytics">Analytics</NavLink>
+        </li>
+        <li>
+          <NavLink to="/Settings">Settings</NavLink>
         </li>
       </ul>
     </div>
