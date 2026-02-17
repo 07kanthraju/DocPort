@@ -1,18 +1,17 @@
 import React from "react";
-import TotalAppointment from "../../components/Cards/TotalAppointments";
+import OverviewCard from "../../components/Cards/OverviewCard";
 function Overview() {
   return (
-
-      <div style={{
-    display: "flex",
-    gap: "20px",
-    flexWrap: "wrap"
-  }}>
-      <TotalAppointment title="Total Appointments" Appointments={1000} /> <br />
-      <TotalAppointment title="Active Insurance Connection" Appointments={12} />
-     
+    <div
+      style={{
+        display: "flex",
+        gap: "20px",
+        flexWrap: "wrap",
+      }}
+    >
+      <OverviewCard title="Total Appointments" count={1000} /> <br />
+      <OverviewCard title="Active Insurance Connection" count={12} />
     </div>
-    
   );
 }
 
