@@ -20,7 +20,8 @@ public class DoctorController {
 
 
     @PutMapping("/add")
-    public Doctor createDoctor(@RequestBody Doctor doctor) {
+    public Doctor createDoctor(Doctor doctor)
+    {
         return doctorService.saveDoctor(doctor);
     }
 

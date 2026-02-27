@@ -11,15 +11,19 @@ public class DoctorService {
 
     private final DoctorRepo doctorRepo;
 
-    public DoctorService(DoctorRepo doctorRepo) {
+    public DoctorService(DoctorRepo doctorRepo)
+    {
         this.doctorRepo = doctorRepo;
     }
 
-    public Doctor saveDoctor(Doctor doctor) {
+    public Doctor saveDoctor(Doctor doctor)
+    {
         return doctorRepo.save(doctor);
     }
 
-    public List<Doctor> getAllDoctors() {
+    public List<Doctor> getAllDoctors()
+    {
         return doctorRepo.findAll();
     }
+
 }
