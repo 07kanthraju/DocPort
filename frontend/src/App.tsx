@@ -10,6 +10,7 @@ function App() {
       <div style={{ flex: 1 }}>
         <Routes>
           <Route path="/overview" element={<Overview />} />
+          <Route path="/profile" element={<Overview />} />
         </Routes>
       </div>
     </div>

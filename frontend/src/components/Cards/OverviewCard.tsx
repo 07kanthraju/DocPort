@@ -11,6 +11,7 @@ const OverviewCard = (props: OverviewProps): JSX.Element => {
     <div style={styles.OverviewCard}>
       <h3>{props.title}</h3>
       <p>{props.count}</p>
+      
       <Button text="check for appointments" />
     </div>
   );
