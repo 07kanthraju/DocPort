@@ -1,0 +1,131 @@
+@startuml
+title DocPort - Conceptual ER Diagram (Chen Style)
+
+' Enable Chen notation
+!pragma layout smetana
+
+' ======================
+' ENTITIES
+' ======================
+
+entity Doctors {
+}
+
+entity InsuranceProviders {
+}
+
+entity DoctorCredentials {
+}
+
+entity DoctorAvailability {
+}
+
+entity Appointments {
+}
+
+entity DoctorInsuranceConsent {
+}
+
+entity ProviderDoctorSync {
+}
+
+entity Users {
+}
+
+entity AuditLogs {
+}
+
+' ======================
+' ATTRIBUTES (Ovals)
+' ======================
+
+Doctors -- (doctor_id)
+Doctors -- (full_name)
+Doctors -- (email)
+Doctors -- (phone)
+Doctors -- (registration_number)
+Doctors -- (specialization)
+Doctors -- (status)
+
+InsuranceProviders -- (provider_id)
+InsuranceProviders -- (name)
+InsuranceProviders -- (api_base_url)
+InsuranceProviders -- (webhook_url)
+InsuranceProviders -- (integration_status)
+
+DoctorCredentials -- (degree)
+DoctorCredentials -- (institution)
+DoctorCredentials -- (certificate_url)
+DoctorCredentials -- (verified)
+
+DoctorAvailability -- (day_of_week)
+DoctorAvailability -- (start_time)
+DoctorAvailability -- (end_time)
+DoctorAvailability -- (slot_duration_minutes)
+DoctorAvailability -- (is_active)
+
+Appointments -- (appointment_time)
+Appointments -- (status)
+Appointments -- (external_appointment_id)
+Appointments -- (patient_reference)
+
+DoctorInsuranceConsent -- (consent_status)
+DoctorInsuranceConsent -- (granted_at)
+DoctorInsuranceConsent -- (revoked_at)
+
+ProviderDoctorSync -- (last_profile_sync)
+ProviderDoctorSync -- (last_availability_sync)
+ProviderDoctorSync -- (sync_status)
+ProviderDoctorSync -- (last_error)
+
+Users -- (email)
+Users -- (password_hash)
+Users -- (role)
+
+AuditLogs -- (entity_type)
+AuditLogs -- (entity_id)
+AuditLogs -- (action)
+AuditLogs -- (timestamp)
+AuditLogs -- (metadata)
+
+' ======================
+' RELATIONSHIPS (Diamonds)
+' ======================
+
+relationship HasCredentials
+Doctors - HasCredentials
+HasCredentials - DoctorCredentials
+
+relationship HasAvailability
+Doctors - HasAvailability
+HasAvailability - DoctorAvailability
+
+relationship BooksAppointment
+Doctors - BooksAppointment
+BooksAppointment - Appointments
+
+relationship ProvidedBy
+InsuranceProviders - ProvidedBy
+ProvidedBy - Appointments
+
+relationship GivesConsent
+Doctors - GivesConsent
+GivesConsent - DoctorInsuranceConsent
+
+relationship ConsentFor
+InsuranceProviders - ConsentFor
+ConsentFor - DoctorInsuranceConsent
+
+relationship SyncsWith
+Doctors - SyncsWith
+SyncsWith - ProviderDoctorSync
+
+relationship SyncProvider
+InsuranceProviders - SyncProvider
+SyncProvider - ProviderDoctorSync
+
+relationship Performs
+Users - Performs
+Performs - AuditLogs
+
+@enduml
