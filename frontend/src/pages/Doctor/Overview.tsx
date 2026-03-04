@@ -10,6 +10,7 @@ type Doctor = {
 function Overview() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(false);
+  const [specialization, setSpecialization] = useState<Doctor[]>();
 
   const fetchDoctors = async () => {
     try {
@@ -19,6 +20,7 @@ function Overview() {
       const data: Doctor[] = await response.json();
 
       setDoctors(data);
+      setSpecialization(data);
     } catch (error) {
       console.error("Error fetching doctors:", error);
     } finally {
@@ -38,6 +40,10 @@ function Overview() {
         <h3>Doctor List</h3>
         {doctors.map((doctor) => (
           <p key={doctor.id}>{doctor.name}</p>
+        ))}
+        <h3>Doctor specialization</h3>
+        {doctors.map((doctor) => (
+          <p key={doctor.id}>{doctor.specialization}</p>
         ))}
       </div>
     </div>
