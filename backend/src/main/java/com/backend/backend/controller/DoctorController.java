@@ -30,4 +30,6 @@ public class DoctorController {
     public List<Doctor> getDoctor() {
         return doctorService.getAllDoctors();
     }
+
+
 }

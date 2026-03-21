@@ -14,18 +14,16 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @PostMapping("/doctor/{doctorId}/insurance/{insuranceId}")
-    public Patient createPatient(
-            @PathVariable Long doctorId,
-            @PathVariable Long insuranceId,
-            @RequestBody Patient patient) {
-
-        return patientService.createPatient(doctorId, insuranceId, patient);
+    @PutMapping("/add")
+    public Patient bookAppointment(Patient patient){
+        return patientService.savePatient(patient);
     }
 
-    @GetMapping
+    @GetMapping("/remove")
     public List<Patient> getPatients() {
         return patientService.getAllPatients();
     }
+
+
 }
 

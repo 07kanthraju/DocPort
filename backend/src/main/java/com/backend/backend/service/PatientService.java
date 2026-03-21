@@ -37,8 +37,13 @@ public class PatientService {
         return patientRepo.save(patient);
     }
 
-    public List<Patient> getAllPatients() {
+    public List<Patient> getAllPatients()
+    {
         return patientRepo.findAll();
+    }
+
+    public  Patient savePatient(Patient patient){
+        return patientRepo.save(patient);
     }
 }
 
