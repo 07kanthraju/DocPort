@@ -8,28 +8,39 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 @RestController
-@RequestMapping("/doctor")
+@RequestMapping("/api/doctors")
 public class DoctorController {
 
-    public final DoctorService doctorService;
+    private final DoctorService service;
 
-    public DoctorController(DoctorService doctorService) {
-        this.doctorService = doctorService;
+    public DoctorController(DoctorService service) {
+        this.service = service;
     }
 
-
-    @PutMapping("/add")
-    public Doctor createDoctor(Doctor doctor)
-    {
-        return doctorService.saveDoctor(doctor);
+    @GetMapping
+    public List<Doctor> getDoctors() {
+        return service.getAllDoctors();
     }
 
-    // GET: fetch all users from DB
-    @GetMapping("/all")
-    public List<Doctor> getDoctor() {
-        return doctorService.getAllDoctors();
+    @PostMapping
+    public Doctor createDoctor(@RequestBody Doctor doctor) {
+        return service.createDoctor(doctor);
     }
 
+    @PutMapping("/{id}")
+    public Doctor updateDoctor(
+            @PathVariable Long id,
+            @RequestBody Doctor doctor
+    ) {
+        return service.updateDoctor(id, doctor);
+    }
 
+    @DeleteMapping("/{id}")
+    public void deleteDoctor(@PathVariable Long id) {
+        service.deleteDoctor(id);
+    }
 }

@@ -5,8 +5,9 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+import jakarta.persistence.*;
+
 @Entity
-@Table(name = "doctors")
 public class Doctor {
 
     @Id
@@ -15,51 +16,29 @@ public class Doctor {
 
     private String name;
     private String specialization;
+    private String hospital;
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Patient> patients;
+    public Doctor() {}
 
-    // Constructors
-    public Doctor() {
-    }
-
-    public Doctor(String name, String specialization) {
+    public Doctor(String name, String specialization, String hospital) {
         this.name = name;
         this.specialization = specialization;
+        this.hospital = hospital;
     }
 
-    // Getters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public String getSpecialization() {
-        return specialization;
-    }
+    public String getSpecialization() { return specialization; }
 
-    public List<Patient> getPatients() {
-        return patients;
-    }
+    public String getHospital() { return hospital; }
 
-    // Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
 
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
-    }
+    public void setHospital(String hospital) { this.hospital = hospital; }
 }
