@@ -6,9 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-import java.util.List;
-
 @Service
 public class DoctorService {
 
@@ -20,6 +17,12 @@ public class DoctorService {
 
     public List<Doctor> getAllDoctors() {
         return repository.findAll();
+    }
+
+
+    public Doctor getDoctorById(Long id) {
+        return repository.findById(id).orElseThrow();
+
     }
 
     public Doctor createDoctor(Doctor doctor) {
@@ -39,4 +42,9 @@ public class DoctorService {
     public void deleteDoctor(Long id) {
         repository.deleteById(id);
     }
+
+    public Doctor getDoctor(Long id) {
+       return repository.getReferenceById(id);
+    }
+
 }

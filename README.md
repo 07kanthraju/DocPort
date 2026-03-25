@@ -1,5 +1,16 @@
 # DocPort
 
+
+## Abstract
+
+DocPort is a doctor-first infrastructure platform designed to simplify OPD (Outpatient Department) insurance integration. In the current healthcare ecosystem, insurance providers must individually onboard doctors and maintain separate systems, while doctors are forced to manage multiple insurer-specific applications. This fragmentation increases operational complexity and limits the adoption of OPD insurance benefits.
+
+DocPort solves this problem by introducing a centralized doctor registry and a single application where doctors can manage their profile, credentials, availability, and appointments. Insurance providers integrate with the platform through standardized APIs, allowing them to access verified doctor data and synchronize availability without repeatedly onboarding doctors.
+
+Doctors retain full control over their participation by explicitly opting into the insurance providers they want to work with. The platform acts as an infrastructure layer rather than a patient-facing booking system, enabling scalable integrations between doctors and multiple insurance platforms.
+
+Built with React, TypeScript, Spring Boot, and PostgreSQL, DocPort provides a secure and scalable architecture that supports role-based access control, API authentication, and audit logging. The platform aims to become the standard identity and availability layer for OPD insurance ecosystems, reducing operational friction while enabling insurers to expand OPD coverage efficiently.
+
 **A unified doctor platform for multi-insurance OPD integration**
 
 DocPort is a doctor-first infrastructure platform designed to simplify OPD onboarding for insurance providers and reduce operational complexity for doctors. It enables doctors to manage their profile, availability, and appointments through a single application, while allowing multiple insurance providers to integrate via APIs.

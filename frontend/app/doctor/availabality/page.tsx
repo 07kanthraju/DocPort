@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Sidebar from "../../components/Sidebar";
+// import Sidebar from "../../components/Sidebar";
 
 export default function Availability() {
   const [day, setDay] = useState("");
@@ -23,7 +23,7 @@ export default function Availability() {
 
   return (
     <div className="flex">
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <div className="p-6">
         <h1 className="text-xl mb-4">Availability</h1>

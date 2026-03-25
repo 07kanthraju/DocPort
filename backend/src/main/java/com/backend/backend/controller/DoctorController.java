@@ -21,10 +21,16 @@ public class DoctorController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<Doctor> getDoctors() {
-        return service.getAllDoctors();
+
+    @GetMapping("/{id}")
+    public void getDoctor(@PathVariable Long id) {
+        service.getDoctor(id);
     }
+//
+//    @GetMapping
+//    public List<Doctor> getDoctors() {
+//        return service.getAllDoctors();
+//    }
 
     @PostMapping
     public Doctor createDoctor(@RequestBody Doctor doctor) {

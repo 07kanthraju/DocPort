@@ -11,31 +11,28 @@ export default function LoginPage() {
   const [role, setRole] = useState("doctor");
 
   const login = async () => {
-    try {
-      const res = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+    const res = await fetch("http://localhost:8080/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      // store role for sidebar
-      localStorage.setItem("role", role);
+    // store user details in local storage
+    localStorage.setItem("userId", data.id);
+    // localStorage.setItem("email", data.email);
+    // localStorage.setItem("role", data.role);
 
-      // store token if backend sends it
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
+    // redirect based on role
+    if (data.role === "doctor") {
+      window.location.href = "/doctor/dashboard";
+    }
 
-      // redirect
-      if (role === "doctor") {
-        router.push("/doctor/dashboard");
-      } else {
-        router.push("/insurance/dashboard");
-      }
-    } catch (err) {
-      console.error("Login failed", err);
+    if (data.role === "insurance") {
+      window.location.href = "/insurance/dashboard";
     }
   };
 
