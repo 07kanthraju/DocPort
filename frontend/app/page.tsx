@@ -1,22 +1,33 @@
-import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import Link from "next/link";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Home() {
   return (
-    <html lang="en">
-      <body>
-        <div className="flex">
-          <Sidebar />
+    <div className="flex flex-col items-center justify-center h-screen gap-6">
 
-          <main className="flex-1 p-8 bg-gray-950 text-gray-200 min-h-screen">
-            {children}
-          </main>
-        </div>
-      </body>
-    </html>
+      <h1 className="text-4xl font-bold">
+        Welcome to DocPort
+      </h1>
+
+      <p className="text-gray-600">
+        Doctor • Insurance • Patient Appointment System
+      </p>
+
+      <div className="flex gap-4">
+
+        <Link href="/login">
+          <button className="bg-blue-500 text-white px-6 py-2 rounded">
+            Login
+          </button>
+        </Link>
+
+        <Link href="/signup">
+          <button className="bg-green-500 text-white px-6 py-2 rounded">
+            Sign Up
+          </button>
+        </Link>
+
+      </div>
+
+    </div>
   );
 }
