@@ -4,137 +4,155 @@ import { useState } from "react";
 
 export default function AvailabilityPage() {
 
-  const doctorId =
-    typeof window !== "undefined" ? localStorage.getItem("doctorId") : null;
-
-  const [form, setForm] = useState({
-    doctor_id: doctorId || "",
-    day_of_week: "",
-    start_time: "",
-    end_time: "",
-    slot_duration_minutes: "",
-    is_active: true
+  const [formData, setFormData] = useState({
+    doctorId: "",
+    dayOfWeek: "",
+    startTime: "",
+    endTime: "",
+    slotDurationMinutes: "",
+    isActive: true
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
 
-    setForm({
-      ...form,
+    setFormData({
+      ...formData,
       [name]: type === "checkbox" ? checked : value
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
-
-      const res = await fetch("http://localhost:8080/api/availability", {
+      const response = await fetch("http://localhost:8080/api/availability", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify({
+          doctorId: Number(formData.doctorId),
+          dayOfWeek: formData.dayOfWeek,
+          startTime: formData.startTime,
+          endTime: formData.endTime,
+          slotDurationMinutes: Number(formData.slotDurationMinutes),
+          isActive: formData.isActive
+        })
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to save");
+      if (!response.ok) {
+        throw new Error("Failed to save availability");
       }
 
-      const data = await res.json();
-
-      console.log(data);
       alert("Availability saved successfully");
 
-    } catch (error) {
+      setFormData({
+        doctorId: "",
+        dayOfWeek: "",
+        startTime: "",
+        endTime: "",
+        slotDurationMinutes: "",
+        isActive: true
+      });
 
+    } catch (error) {
       console.error(error);
       alert("Error saving availability");
-
     }
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "40px auto" }}>
+    <div className="p-6">
 
-      <h2>Doctor Availability</h2>
+      <h2 className="text-lg font-semibold mb-4">
+        Doctor Availability
+      </h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
 
-        <label>Day</label>
-        <br />
+        <div>
+          <label>Doctor ID</label>
+          <input
+            type="number"
+            name="doctorId"
+            value={formData.doctorId}
+            onChange={handleChange}
+            required
+            className="border p-2 w-full"
+          />
+        </div>
 
-        <select
-          name="day_of_week"
-          value={form.day_of_week}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Day</option>
-          <option>Monday</option>
-          <option>Tuesday</option>
-          <option>Wednesday</option>
-          <option>Thursday</option>
-          <option>Friday</option>
-          <option>Saturday</option>
-          <option>Sunday</option>
-        </select>
+        <div>
+          <label>Day of Week</label>
+          <select
+            name="dayOfWeek"
+            value={formData.dayOfWeek}
+            onChange={handleChange}
+            required
+            className="border p-2 w-full"
+          >
+            <option value="">Select Day</option>
+            <option>Monday</option>
+            <option>Tuesday</option>
+            <option>Wednesday</option>
+            <option>Thursday</option>
+            <option>Friday</option>
+            <option>Saturday</option>
+            <option>Sunday</option>
+          </select>
+        </div>
 
-        <br /><br />
+        <div>
+          <label>Start Time</label>
+          <input
+            type="time"
+            name="startTime"
+            value={formData.startTime}
+            onChange={handleChange}
+            required
+            className="border p-2 w-full"
+          />
+        </div>
 
-        <label>Start Time</label>
-        <br />
+        <div>
+          <label>End Time</label>
+          <input
+            type="time"
+            name="endTime"
+            value={formData.endTime}
+            onChange={handleChange}
+            required
+            className="border p-2 w-full"
+          />
+        </div>
 
-        <input
-          type="time"
-          name="start_time"
-          value={form.start_time}
-          onChange={handleChange}
-          required
-        />
+        <div>
+          <label>Slot Duration (minutes)</label>
+          <input
+            type="number"
+            name="slotDurationMinutes"
+            value={formData.slotDurationMinutes}
+            onChange={handleChange}
+            required
+            className="border p-2 w-full"
+          />
+        </div>
 
-        <br /><br />
-
-        <label>End Time</label>
-        <br />
-
-        <input
-          type="time"
-          name="end_time"
-          value={form.end_time}
-          onChange={handleChange}
-          required
-        />
-
-        <br /><br />
-
-        <label>Slot Duration (minutes)</label>
-        <br />
-
-        <input
-          type="number"
-          name="slot_duration_minutes"
-          value={form.slot_duration_minutes}
-          onChange={handleChange}
-          required
-        />
-
-        <br /><br />
-
-        <label>
+        <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            name="is_active"
-            checked={form.is_active}
+            name="isActive"
+            checked={formData.isActive}
             onChange={handleChange}
           />
-          Active
-        </label>
+          <label>Active</label>
+        </div>
 
-        <br /><br />
-
-        <button type="submit">
+        <button
+          type="submit"
+          className="border px-4 py-2"
+        >
           Save Availability
         </button>
 

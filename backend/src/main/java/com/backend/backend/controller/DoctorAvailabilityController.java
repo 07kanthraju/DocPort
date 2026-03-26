@@ -1,9 +1,8 @@
 package com.backend.backend.controller;
 
-//package com.backend.backend.controller;
-
-import com.backend.backend.model.DoctorAvailabality;
+import com.backend.backend.model.DoctorAvailability;
 import com.backend.backend.service.DoctorAvailabilityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,36 +12,25 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class DoctorAvailabilityController {
 
-    private final DoctorAvailabilityService service;
-
-    public DoctorAvailabilityController(DoctorAvailabilityService service) {
-        this.service = service;
-    }
+    @Autowired
+    private DoctorAvailabilityService availabilityService;
 
     // Create availability
     @PostMapping
-    public DoctorAvailabality createAvailability(@RequestBody DoctorAvailabality availability) {
-        return service.createAvailability(availability);
+    public DoctorAvailability createAvailability(@RequestBody DoctorAvailability availability){
+        return availabilityService.saveAvailability(availability);
     }
 
-    // Get availability by doctor
+    // Get doctor availability
     @GetMapping("/{doctorId}")
-    public List<DoctorAvailabality> getByDoctorId(@PathVariable String doctorId) {
-        return service.getByDoctorId(doctorId);
+    public List<DoctorAvailability> getDoctorAvailability(@PathVariable Long doctorId){
+        return availabilityService.getAvailabilityByDoctorId(doctorId);
     }
 
     // Get all availability
     @GetMapping
-    public List<DoctorAvailabality> getAll() {
-        return service.getAll();
+    public List<DoctorAvailability> getAllAvailability(){
+        return availabilityService.getAllAvailability();
     }
 
-    // Update availability
-    @PutMapping("/{id}")
-    public DoctorAvailabality updateAvailability(
-            @PathVariable Long id,
-            @RequestBody DoctorAvailabality availability
-    ) {
-        return service.updateAvailability(id, availability);
-    }
 }

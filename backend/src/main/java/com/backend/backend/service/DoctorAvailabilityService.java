@@ -1,8 +1,8 @@
 package com.backend.backend.service;
 
-
-import com.backend.backend.model.DoctorAvailabality;
-import com.backend.backend.repo.DoctorAvailabalityRepo;
+import com.backend.backend.model.DoctorAvailability;
+import com.backend.backend.repo.DoctorAvailabilityRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,36 +10,22 @@ import java.util.List;
 @Service
 public class DoctorAvailabilityService {
 
-    private final DoctorAvailabalityRepo repo;
+    @Autowired
+    private DoctorAvailabilityRepo availabilityRepo;
 
-    public DoctorAvailabilityService(DoctorAvailabalityRepo repo) {
-        this.repo = repo;
+    // Save availability
+    public DoctorAvailability saveAvailability(DoctorAvailability availability){
+        return availabilityRepo.save(availability);
     }
 
-    public DoctorAvailabality createAvailability(DoctorAvailabality availability) {
-        return repo.save(availability);
+    // Get availability by doctor
+    public List<DoctorAvailability> getAvailabilityByDoctorId(Long doctorId){
+        return availabilityRepo.findByDoctorId(doctorId);
     }
 
-    public List<DoctorAvailabality> getByDoctorId(String doctorId) {
-        return repo.findByDoctor_id(doctorId);
-    }
-
-    public List<DoctorAvailabality> getAll() {
-        return repo.findAll();
-    }
-
-    public DoctorAvailabality updateAvailability(Long id, DoctorAvailabality updated) {
-
-        DoctorAvailabality existing = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Availability not found"));
-
-        existing.setDay_of_week(updated.getDay_of_week());
-        existing.setStart_time(updated.getStart_time());
-        existing.setEnd_time(updated.getEnd_time());
-        existing.setSlot_duration_minutes(updated.getSlot_duration_minutes());
-        existing.setIs_active(updated.isIs_active());
-
-        return repo.save(existing);
+    // Get all availability
+    public List<DoctorAvailability> getAllAvailability(){
+        return availabilityRepo.findAll();
     }
 
 }

@@ -48,15 +48,15 @@ public class UserService {
             doctorProfile.setStatus("active");
             doctorProfileRepo.save(doctorProfile);
         }
-
-        else {
-
-            System.out.println("Entering insurance loop");
-            InsuranceProfile insuranceProfile = new InsuranceProfile();
-
-            insuranceProfileRepo.save(insuranceProfile);
-
-        }
+//
+//        else {
+//
+//            System.out.println("Entering insurance loop");
+//            InsuranceProfile insuranceProfile = new InsuranceProfile();
+//
+//            insuranceProfileRepo.save(insuranceProfile);
+//
+//        }
 
         return savedUser;
     }
