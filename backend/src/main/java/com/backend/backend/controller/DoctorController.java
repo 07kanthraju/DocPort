@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/doctors")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DoctorController {
 
     private final DoctorService service;
@@ -26,11 +27,11 @@ public class DoctorController {
     public void getDoctor(@PathVariable Long id) {
         service.getDoctor(id);
     }
-//
-//    @GetMapping
-//    public List<Doctor> getDoctors() {
-//        return service.getAllDoctors();
-//    }
+
+    @GetMapping("")
+    public void getAllDoctor(){
+        service.getAllDoctors();
+    }
 
     @PostMapping
     public Doctor createDoctor(@RequestBody Doctor doctor) {

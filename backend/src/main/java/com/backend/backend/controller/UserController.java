@@ -5,14 +5,17 @@ import com.backend.backend.model.SignupRequest;
 import com.backend.backend.model.Users;
 import com.backend.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @PostMapping("/login")
     public Users login(@RequestBody LoginRequest request) {
@@ -29,13 +32,18 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public Users signup(@RequestBody SignupRequest request) {
-
-        return userService.register(
-                request.getEmail(),
-                request.getName(),
-                request.getPassword(),
-                request.getRole()
-        );
+    public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
+        try {
+            Users saved = userService.register(
+                    request.getEmail(),
+                    request.getPassword(),
+                    request.getRole(),
+                    request.getName()
+            );
+            return ResponseEntity.ok(saved);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+
 }

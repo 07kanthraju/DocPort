@@ -46,5 +46,4 @@ public class DoctorService {
     public Doctor getDoctor(Long id) {
        return repository.getReferenceById(id);
     }
-
 }

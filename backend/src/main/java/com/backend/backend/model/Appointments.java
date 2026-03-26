@@ -13,6 +13,16 @@ public class Appointments {
     private String status;
     private String patientReference;
 
+    public String getFees() {
+        return fees;
+    }
+
+    public void setFees(String fees) {
+        this.fees = fees;
+    }
+
+    private String fees;
+
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;

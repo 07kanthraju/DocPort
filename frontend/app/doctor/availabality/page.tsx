@@ -1,55 +1,145 @@
 "use client";
 
 import { useState } from "react";
-// import Sidebar from "../../components/Sidebar";
 
-export default function Availability() {
-  const [day, setDay] = useState("");
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+export default function AvailabilityPage() {
 
-  const save = async () => {
-    await fetch("http://localhost:8080/api/availability", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        day_of_week: day,
-        start_time: start,
-        end_time: end,
-        slot_duration_minutes: 30,
-      }),
+  const doctorId =
+    typeof window !== "undefined" ? localStorage.getItem("doctorId") : null;
+
+  const [form, setForm] = useState({
+    doctor_id: doctorId || "",
+    day_of_week: "",
+    start_time: "",
+    end_time: "",
+    slot_duration_minutes: "",
+    is_active: true
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? checked : value
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      const res = await fetch("http://localhost:8080/api/availability", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to save");
+      }
+
+      const data = await res.json();
+
+      console.log(data);
+      alert("Availability saved successfully");
+
+    } catch (error) {
+
+      console.error(error);
+      alert("Error saving availability");
+
+    }
+  };
+
   return (
-    <div className="flex">
-      {/* <Sidebar /> */}
+    <div style={{ maxWidth: "500px", margin: "40px auto" }}>
 
-      <div className="p-6">
-        <h1 className="text-xl mb-4">Availability</h1>
+      <h2>Doctor Availability</h2>
+
+      <form onSubmit={handleSubmit}>
+
+        <label>Day</label>
+        <br />
+
+        <select
+          name="day_of_week"
+          value={form.day_of_week}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Day</option>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday</option>
+          <option>Sunday</option>
+        </select>
+
+        <br /><br />
+
+        <label>Start Time</label>
+        <br />
 
         <input
-          placeholder="Day"
-          className="border p-2 mb-2"
-          onChange={(e) => setDay(e.target.value)}
+          type="time"
+          name="start_time"
+          value={form.start_time}
+          onChange={handleChange}
+          required
         />
+
+        <br /><br />
+
+        <label>End Time</label>
+        <br />
 
         <input
-          placeholder="Start Time"
-          className="border p-2 mb-2"
-          onChange={(e) => setStart(e.target.value)}
+          type="time"
+          name="end_time"
+          value={form.end_time}
+          onChange={handleChange}
+          required
         />
+
+        <br /><br />
+
+        <label>Slot Duration (minutes)</label>
+        <br />
 
         <input
-          placeholder="End Time"
-          className="border p-2 mb-2"
-          onChange={(e) => setEnd(e.target.value)}
+          type="number"
+          name="slot_duration_minutes"
+          value={form.slot_duration_minutes}
+          onChange={handleChange}
+          required
         />
 
-        <button onClick={save} className="bg-blue-500 text-white p-2">
-          Save
+        <br /><br />
+
+        <label>
+          <input
+            type="checkbox"
+            name="is_active"
+            checked={form.is_active}
+            onChange={handleChange}
+          />
+          Active
+        </label>
+
+        <br /><br />
+
+        <button type="submit">
+          Save Availability
         </button>
-      </div>
+
+      </form>
+
     </div>
   );
 }
