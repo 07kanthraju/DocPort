@@ -1,15 +1,10 @@
 package com.backend.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(
-        name = "doctor_insurance_consent",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"doctor_id", "provider_id"})
-        }
-)
+@Table(name = "doctor_insurance_consent")
 public class DoctorInsuranceConsent {
 
     @Id
@@ -18,39 +13,60 @@ public class DoctorInsuranceConsent {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
+    @JsonIgnoreProperties({"appointments", "hibernateLazyInitializer"})
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "provider_id", nullable = false)
+    @JsonIgnoreProperties({"patients", "hibernateLazyInitializer"})
     private InsuranceProvider provider;
 
-    @Enumerated(EnumType.STRING)
+    // Lifecycle: PENDING → ACTIVE or REJECTED
+    // Set to PENDING automatically when insurance sends an invite
     @Column(nullable = false)
-    private ConsentStatus consentStatus = ConsentStatus.PENDING; // now resolves to the standalone enum
+    private String status = "PENDING";  // "PENDING" | "ACTIVE" | "REJECTED"
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+    // ─── Constructors ────────────────────────────────────────────────────────
 
-    private LocalDateTime grantedAt;
-    private LocalDateTime revokedAt;
+    public DoctorInsuranceConsent() {}
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+    public DoctorInsuranceConsent(Doctor doctor, InsuranceProvider provider) {
+        this.doctor = doctor;
+        this.provider = provider;
+        this.status = "PENDING";
     }
 
-    public Long getId() { return id; }
-    public Doctor getDoctor() { return doctor; }
-    public InsuranceProvider getProvider() { return provider; }
-    public ConsentStatus getConsentStatus() { return consentStatus; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getGrantedAt() { return grantedAt; }
-    public LocalDateTime getRevokedAt() { return revokedAt; }
+    // ─── Getters & Setters ───────────────────────────────────────────────────
 
-    public void setId(Long id) { this.id = id; }
-    public void setDoctor(Doctor doctor) { this.doctor = doctor; }
-    public void setProvider(InsuranceProvider provider) { this.provider = provider; }
-    public void setConsentStatus(ConsentStatus consentStatus) { this.consentStatus = consentStatus; }
-    public void setGrantedAt(LocalDateTime grantedAt) { this.grantedAt = grantedAt; }
-    public void setRevokedAt(LocalDateTime revokedAt) { this.revokedAt = revokedAt; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public InsuranceProvider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(InsuranceProvider provider) {
+        this.provider = provider;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

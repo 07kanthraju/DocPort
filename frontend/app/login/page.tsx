@@ -191,7 +191,7 @@ export default function LoginPage() {
       <style>{styles}</style>
       <div className="login-page">
         <div className="login-card">
-          <div className="login-wordmark">Medic</div>
+         <div className="login-wordmark">DocPort</div>  {/* was: Medic */}
 
           <h2>Welcome back</h2>
           <p className="login-lead">Sign in to your account to continue</p>

@@ -20,6 +20,7 @@ public class Doctor {
     @JsonIgnore
     private List<Appointments> appointments;
 
+
     public Doctor() {}
 
     public Doctor(String name, String specialization, String hospital) {

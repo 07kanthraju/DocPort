@@ -1,11 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import {
-  getAppointments,
-  createAppointment,
-  updateAppointment,
-  deleteAppointment,
-} from "../../lib/api";
+import { getAppointments, createAppointment, updateAppointment, deleteAppointment } from "../../lib/api";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
@@ -42,22 +37,9 @@ const styles = `
   .modal-actions { display: flex; gap: 10px; margin-top: 22px; justify-content: flex-end; }
 `;
 
-type Appointment = {
-  id: number;
-  patientReference: string;
-  appointmentTime: string;
-  fees: string;
-  status: string;
-  doctor?: any;
-};
+type Appointment = { id: number; patientReference: string; appointmentTime: string; fees: string; status: string; doctor?: any };
 
-const empty = (): Omit<Appointment, "id"> => ({
-  patientReference: "",
-  appointmentTime: "",
-  fees: "",
-  status: "active",
-  doctor: null,
-});
+const empty = (): Omit<Appointment, "id"> => ({ patientReference: "", appointmentTime: "", fees: "", status: "active", doctor: null });
 
 export default function DoctorAppointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -67,60 +49,30 @@ export default function DoctorAppointments() {
   const [form, setForm] = useState(empty());
 
   const load = () => {
-    getAppointments()
-      .then((a) => {
-        setAppointments(Array.isArray(a) ? a : []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    getAppointments().then((a) => { setAppointments(Array.isArray(a) ? a : []); setLoading(false); }).catch(() => setLoading(false));
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("userId")) {
-      window.location.href = "/login";
-      return;
-    }
+    if (!localStorage.getItem("userId")) { window.location.href = "/login"; return; }
     load();
   }, []);
 
   const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
 
-  const openCreate = () => {
-    setEditing(null);
-    setForm(empty());
-    setModal(true);
-  };
-  const openEdit = (a: Appointment) => {
-    setEditing(a);
-    setForm({
-      patientReference: a.patientReference,
-      appointmentTime: a.appointmentTime,
-      fees: a.fees,
-      status: a.status,
-      doctor: a.doctor,
-    });
-    setModal(true);
-  };
+  const openCreate = () => { setEditing(null); setForm(empty()); setModal(true); };
+  const openEdit = (a: Appointment) => { setEditing(a); setForm({ patientReference: a.patientReference, appointmentTime: a.appointmentTime, fees: a.fees, status: a.status, doctor: a.doctor }); setModal(true); };
 
   const save = async () => {
     try {
       if (editing) await updateAppointment(editing.id, form);
       else await createAppointment(form);
-      setModal(false);
-      load();
-    } catch {
-      alert("Failed to save.");
-    }
+      setModal(false); load();
+    } catch { alert("Failed to save."); }
   };
 
   const remove = async (id: number) => {
-    if (!confirm("Cancel Appointment?")) return;
-    try {
-      await deleteAppointment(id);
-      load();
-    } catch {
-      alert("Failed to delete.");
-    }
+    if (!confirm("Delete this appointment?")) return;
+    try { await deleteAppointment(id); load(); } catch { alert("Failed to delete."); }
   };
 
   return (
@@ -132,15 +84,14 @@ export default function DoctorAppointments() {
             <h1 className="page-title">Appointments</h1>
             <p className="page-sub">Manage your patient appointments.</p>
           </div>
+          <button className="btn" onClick={openCreate}>+ New appointment</button>
         </div>
 
         <div className="card">
           {loading ? (
             <div className="loading">Loading…</div>
           ) : appointments.length === 0 ? (
-            <div className="empty">
-              No appointments yet. Create your first one.
-            </div>
+            <div className="empty">No appointments yet. Create your first one.</div>
           ) : (
             <table className="table">
               <thead>
@@ -159,26 +110,12 @@ export default function DoctorAppointments() {
                     <td>{a.appointmentTime || "—"}</td>
                     <td>{a.fees ? `₹${a.fees}` : "—"}</td>
                     <td>
-                      <span
-                        className={`badge badge-${(a.status || "").toLowerCase()}`}
-                      >
-                        {a.status || "—"}
-                      </span>
+                      <span className={`badge badge-${(a.status || "").toLowerCase()}`}>{a.status || "—"}</span>
                     </td>
                     <td>
                       <div className="actions">
-                        <button
-                          className="btn-ghost"
-                          onClick={() => openEdit(a)}
-                        >
-                          Reschedule
-                        </button>
-                        <button
-                          className="btn-ghost btn-danger"
-                          onClick={() => remove(a.id)}
-                        >
-                          Reject Appointment
-                        </button>
+                        <button className="btn-ghost" onClick={() => openEdit(a)}>Edit</button>
+                        <button className="btn-ghost btn-danger" onClick={() => remove(a.id)}>Delete</button>
                       </div>
                     </td>
                   </tr>
@@ -190,54 +127,32 @@ export default function DoctorAppointments() {
       </div>
 
       {modal && (
-        <div
-          className="modal-backdrop"
-          onClick={(e) => e.target === e.currentTarget && setModal(false)}
-        >
+        <div className="modal-backdrop" onClick={(e) => e.target === e.currentTarget && setModal(false)}>
           <div className="modal">
             <h3>{editing ? "Edit appointment" : "New appointment"}</h3>
             <div className="field">
               <label>Patient reference</label>
-              <input
-                value={form.patientReference}
-                onChange={(e) => set("patientReference", e.target.value)}
-                placeholder="Patient name or ID"
-              />
+              <input value={form.patientReference} onChange={(e) => set("patientReference", e.target.value)} placeholder="Patient name or ID" />
             </div>
             <div className="field">
               <label>Appointment time</label>
-              <input
-                value={form.appointmentTime}
-                onChange={(e) => set("appointmentTime", e.target.value)}
-                placeholder="e.g. 2024-06-15 10:00 AM"
-              />
+              <input value={form.appointmentTime} onChange={(e) => set("appointmentTime", e.target.value)} placeholder="e.g. 2024-06-15 10:00 AM" />
             </div>
             <div className="field">
               <label>Fees (₹)</label>
-              <input
-                value={form.fees}
-                onChange={(e) => set("fees", e.target.value)}
-                placeholder="500"
-              />
+              <input value={form.fees} onChange={(e) => set("fees", e.target.value)} placeholder="500" />
             </div>
             <div className="field">
               <label>Status</label>
-              <select
-                value={form.status}
-                onChange={(e) => set("status", e.target.value)}
-              >
+              <select value={form.status} onChange={(e) => set("status", e.target.value)}>
                 <option value="active">Active</option>
                 <option value="pending">Pending</option>
                 <option value="cancelled">Cancelled</option>
               </select>
             </div>
             <div className="modal-actions">
-              <button className="btn-ghost" onClick={() => setModal(false)}>
-                Cancel
-              </button>
-              <button className="btn" onClick={save}>
-                Save
-              </button>
+              <button className="btn-ghost" onClick={() => setModal(false)}>Cancel</button>
+              <button className="btn" onClick={save}>Save</button>
             </div>
           </div>
         </div>

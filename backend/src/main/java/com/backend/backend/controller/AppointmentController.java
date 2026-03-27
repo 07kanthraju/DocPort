@@ -2,7 +2,8 @@ package com.backend.backend.controller;
 
 import com.backend.backend.model.Appointments;
 import com.backend.backend.service.AppointmentService;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,39 +19,38 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    // CREATE APPOINTMENT
+    // POST /api/doctor/appointment
+    // Books an appointment — consent guard + availability guard applied inside the service
     @PostMapping
-    public Appointments createAppointment(@RequestBody Appointments appointment) {
-        return appointmentService.saveAppointment(appointment);
+    public ResponseEntity<Appointments> createAppointment(@RequestBody Appointments appointment) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(appointmentService.saveAppointment(appointment));
     }
 
-    // GET ALL APPOINTMENTS
+    // GET /api/doctor/appointment
     @GetMapping
     public List<Appointments> getAllAppointments() {
         return appointmentService.getAllAppointments();
     }
 
-    // GET APPOINTMENT BY ID
+    // GET /api/doctor/appointment/{id}
     @GetMapping("/{id}")
     public Appointments getAppointmentById(@PathVariable Long id) {
         return appointmentService.getAppointmentById(id);
     }
 
-    // UPDATE APPOINTMENT
+    // PUT /api/doctor/appointment/{id}
     @PutMapping("/{id}")
     public Appointments updateAppointment(
             @PathVariable Long id,
-            @RequestBody Appointments appointment
-    ) {
+            @RequestBody Appointments appointment) {
         return appointmentService.updateAppointment(id, appointment);
     }
 
-    // DELETE APPOINTMENT
+    // DELETE /api/doctor/appointment/{id}
     @DeleteMapping("/{id}")
-    public String deleteAppointment(@PathVariable Long id) {
-
+    public ResponseEntity<String> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointment(id);
-
-        return "Appointment deleted successfully";
+        return ResponseEntity.ok("Appointment deleted successfully");
     }
 }

@@ -1,6 +1,7 @@
 package com.backend.backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +22,10 @@ public class InsuranceProvider {
     private String providerName;
     private String policyType;
 
+//    @OneToMany(mappedBy = "insuranceProvider")
+//    private List<Patient> patients;
     @OneToMany(mappedBy = "insuranceProvider")
+    @JsonIgnore
     private List<Patient> patients;
 
     public String getProviderName() {

@@ -15,22 +15,45 @@ public class DoctorAvailabilityController {
     @Autowired
     private DoctorAvailabilityService availabilityService;
 
-    // Create availability
+    // POST /api/availability
+    // Doctor creates a new availability slot — isAvailable is true by default
     @PostMapping
-    public DoctorAvailability createAvailability(@RequestBody DoctorAvailability availability){
+    public DoctorAvailability createAvailability(@RequestBody DoctorAvailability availability) {
         return availabilityService.saveAvailability(availability);
     }
 
-    // Get doctor availability
-    @GetMapping("/{doctorId}")
-    public List<DoctorAvailability> getDoctorAvailability(@PathVariable Long doctorId){
-        return availabilityService.getAvailabilityByDoctorId(doctorId);
-    }
-
-    // Get all availability
+    // GET /api/availability
+    // Returns all slots across all doctors
     @GetMapping
-    public List<DoctorAvailability> getAllAvailability(){
+    public List<DoctorAvailability> getAllAvailability() {
         return availabilityService.getAllAvailability();
     }
 
+    // GET /api/availability/doctor/{doctorId}
+    // Returns all slots for a specific doctor (used by doctor app and third-party patient app)
+    @GetMapping("/doctor/{doctorId}")
+    public List<DoctorAvailability> getDoctorAvailability(@PathVariable Long doctorId) {
+        return availabilityService.getAvailabilityByDoctorId(doctorId);
+    }
+
+    // GET /api/availability/{id}
+    // Returns a single availability slot by its own ID
+    @GetMapping("/{id}")
+    public DoctorAvailability getById(@PathVariable Long id) {
+        return availabilityService.getById(id);
+    }
+
+    // PUT /api/availability/{id}/unavailable
+    // Doctor marks a slot as unavailable — this blocks bookings in patient apps for that slot
+    @PutMapping("/{id}/unavailable")
+    public DoctorAvailability markUnavailable(@PathVariable Long id) {
+        return availabilityService.markUnavailable(id);
+    }
+
+    // PUT /api/availability/{id}/available
+    // Doctor reopens a previously blocked slot
+    @PutMapping("/{id}/available")
+    public DoctorAvailability markAvailable(@PathVariable Long id) {
+        return availabilityService.markAvailable(id);
+    }
 }

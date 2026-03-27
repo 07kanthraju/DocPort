@@ -2,13 +2,10 @@ package com.backend.backend.controller;
 
 import com.backend.backend.model.Doctor;
 import com.backend.backend.service.DoctorService;
-
-import jakarta.annotation.PostConstruct;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
@@ -22,32 +19,38 @@ public class DoctorController {
         this.service = service;
     }
 
+    // GET /api/doctors
+    // Used by insurance app to browse all registered doctors
+    @GetMapping
+    public List<Doctor> getAllDoctors() {
+        return service.getAllDoctors();
+    }
 
+    // GET /api/doctors/{id}
     @GetMapping("/{id}")
-    public void getDoctor(@PathVariable Long id) {
-        service.getDoctor(id);
+    public Doctor getDoctorById(@PathVariable Long id) {
+        return service.getDoctorById(id);
     }
 
-    @GetMapping("")
-    public void getAllDoctor(){
-        service.getAllDoctors();
-    }
-
+    // POST /api/doctors
     @PostMapping
-    public Doctor createDoctor(@RequestBody Doctor doctor) {
-        return service.createDoctor(doctor);
+    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.createDoctor(doctor));
     }
 
+    // PUT /api/doctors/{id}
     @PutMapping("/{id}")
     public Doctor updateDoctor(
             @PathVariable Long id,
-            @RequestBody Doctor doctor
-    ) {
+            @RequestBody Doctor doctor) {
         return service.updateDoctor(id, doctor);
     }
 
+    // DELETE /api/doctors/{id}
     @DeleteMapping("/{id}")
-    public void deleteDoctor(@PathVariable Long id) {
+    public ResponseEntity<String> deleteDoctor(@PathVariable Long id) {
         service.deleteDoctor(id);
+        return ResponseEntity.ok("Doctor deleted successfully");
     }
 }

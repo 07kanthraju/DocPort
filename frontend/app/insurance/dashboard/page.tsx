@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getInsuranceProfile, getConsentsByProvider, getSyncByProvider } from "../../lib/api";
+import { getInsuranceProfile, getConsentsByProvider, getSyncsByProvider } from "../../lib/api";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
@@ -42,7 +42,7 @@ export default function InsuranceDashboard() {
     Promise.all([
       getInsuranceProfile(userId).catch(() => null),
       getConsentsByProvider(userId).catch(() => []),
-      getSyncByProvider(userId).catch(() => []),
+      getSyncsByProvider(userId).catch(() => []),
     ]).then(([p, c, s]) => {
       setProfile(p);
       setConsents(Array.isArray(c) ? c : []);
